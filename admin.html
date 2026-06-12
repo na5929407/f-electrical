@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head><meta charset="UTF-8"><title>Admin</title></head>
+<body>
+<h2>F Electrical Admin</h2>
+<input type="password" id="pass" placeholder="รหัสผ่าน">
+<button onclick="login()">เข้าสู่ระบบ</button>
+
+<div id="panel" style="display:none">
+<h3>เพิ่มผลงาน</h3>
+<input id="cat" placeholder="หมวดหมู่"><br><br>
+<input id="title" placeholder="ชื่อผลงาน"><br><br>
+<input type="file" id="img"><br><br>
+<button onclick="save()">บันทึก</button>
+</div>
+
+<script>
+function login(){
+ if(document.getElementById("pass").value==="FElectrical123"){
+   document.getElementById("panel").style.display="block";
+ } else alert("รหัสผ่านไม่ถูกต้อง");
+}
+
+function save(){
+ const file=document.getElementById("img").files[0];
+ const reader=new FileReader();
+ reader.onload=function(){
+   const works=JSON.parse(localStorage.getItem("works")||"[]");
+   works.push({
+     category:document.getElementById("cat").value,
+     title:document.getElementById("title").value,
+     image:reader.result
+   });
+   localStorage.setItem("works",JSON.stringify(works));
+   alert("บันทึกสำเร็จ");
+ };
+ reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>
